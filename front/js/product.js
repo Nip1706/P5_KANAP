@@ -15,8 +15,8 @@ async function afficherDetailProduit() {
         let descriptionProduit = document.getElementById("description");
         descriptionProduit.innerHTML = data.description
 
-        for (let cpt = 0; cpt < data.colors.length; cpt++) {
-			choixCouleurProduit(data.colors[cpt]);
+        for (let nb = 0; nb < data.colors.length; nb++) {
+			choixCouleurProduit(data.colors[nb]);
 		}
     
     })
@@ -31,10 +31,25 @@ async function afficherDetailProduit() {
 
 
 afficherDetailProduit();
-function choixCouleurProduit(varChoice) {
-	const varOption = document.createElement('option');
-	varOption.value = varChoice;
-	varOption.textContent = varChoice;
+function choixCouleurProduit(couleurChoix) {
+	const couleurOption = document.createElement('option');
+	couleurOption.value = couleurChoix;
+	couleurOption.textContent = couleurChoix;
 	const parent = document.querySelector('#colors');
-	parent.appendChild(varOption)
+	parent.appendChild(couleurOption)
 }
+
+document.getElementById(addToCart).addEventListener('click', ajoutProduit);
+
+function controlQuantiteProduit () {
+    const quantiteProduit = document.getElementById('quantity').value;
+    if (quantiteProduit != null) {
+        if ( quantiteProduit < 0) document.getElementById('quantity').value = 0;
+        if ( quantiteProduit > 100) document.getElementById ('quantity'). value = 100;
+    }
+}
+
+controlQuantiteProduit();
+
+
+
