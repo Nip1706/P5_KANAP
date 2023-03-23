@@ -39,7 +39,7 @@ function choixCouleurProduit(couleurChoix) {
 	parent.appendChild(couleurOption)
 }
 
-document.getElementById(addToCart).addEventListener('click', ajoutProduit);
+document.getElementById('addToCart').addEventListener('click', controlQuantiteProduit);
 
 function controlQuantiteProduit () {
     const quantiteProduit = document.getElementById('quantity').value;
