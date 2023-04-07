@@ -4,8 +4,8 @@ async function afficherListeProduits() {
     await fetch("http://localhost:3000/api/products")
     .then((res) => res.json())
     .then((data) => {
-        for (let nb = 0; nb < data.length; nb++) {
-            composant = data[nb];
+        for (let i = 0; i < data.length; i++) {
+            composant = data[i];
             document.querySelector('#items').innerHTML += `
             <a href="./product.html?id=${composant._id}">
             <article>

@@ -26,8 +26,8 @@ async function afficherDetailProduit() {
         document.querySelector(".item__img").appendChild(imgProduit);
         imgProduit.setAttribute("src", `${data.imageUrl}`)
 
-        for (let nb = 0; nb < data.colors.length; nb++) {
-			choixCouleurProduit(data.colors[nb]);
+        for (let i = 0; i < data.colors.length; i++) {
+			choixCouleurProduit(data.colors[i]);
 		}
     
     })
