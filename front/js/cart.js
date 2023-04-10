@@ -74,7 +74,12 @@ function makeCardItemContent(produit) {
     const p4 = document.createElement("p")
     p4.textContent = "Supprimer"
     function deleteProduit(produit) {
-        const produitDelete = cart.find((product) => product.id === produit.id)
+        const produitDelete = panier.findIndex((product) => product.id === produit.id && product.color === produit.color)
+        panier.splice(produitDelete, 1)
+        displayTotalQuantity()
+        displaytotalPrice()
+        deleteDataFromCart(produit)
+        deleteArticlefromPage(produit)
     }
     input.type = "number"
     input.classList.add("itemQuantity")
@@ -160,6 +165,17 @@ function saveNewData(produit) {
     const key = `${produit.id}-${produit.color}`
     localStorage.setItem(key, dataSave)
 }
+
+function deleteDataFromCart(produit) {
+    const key = `${produit.id}-${produit.color}`
+    localStorage.removeItem(key)
+}
+
+function deleteArticlefromPage(produit) {
+    const articleToDelete = document.querySelector(`article[data-id="${produit.id}"][data-color="${produit.color}"]`)
+    articleToDelete.remove()
+}
+
 
 
 
