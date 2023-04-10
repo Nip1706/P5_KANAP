@@ -64,6 +64,7 @@ if (button != null) {
 }
 
 function enregistrerPanier (color, quantity) {
+    const key = `${id}-${color}`
     const data = {
         id : id,
         color : color,
@@ -73,7 +74,7 @@ function enregistrerPanier (color, quantity) {
         description : descriptproduit,
         name : altText
     }
-    localStorage.setItem(id, JSON.stringify(data));  
+    localStorage.setItem(key, JSON.stringify(data));  
 
 }
 

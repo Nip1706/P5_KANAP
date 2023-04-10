@@ -70,8 +70,12 @@ function makeCardItemContent(produit) {
     const input = document.createElement("input")
     const divDeleteSettings = document.createElement("div")
     divDeleteSettings.classList.add("cart__item__content__settings__delete")
+    divDeleteSettings.addEventListener("click", () => deleteProduit(produit) )
     const p4 = document.createElement("p")
     p4.textContent = "Supprimer"
+    function deleteProduit(produit) {
+        const produitDelete = cart.find((product) => product.id === produit.id)
+    }
     input.type = "number"
     input.classList.add("itemQuantity")
     input.name = "itemQuantity"
@@ -145,6 +149,7 @@ function displayTotalQuantity (produit) {
 function updatePriceAndQuantity(id, newValue, produit) {
     const produitUpdate = panier.find((produit) => produit.id === id)
     produitUpdate.quantity = Number(newValue)
+    produit.quantity = produitUpdate.quantity
     displayTotalQuantity()
     displaytotalPrice()
     saveNewData(produit)
@@ -152,7 +157,8 @@ function updatePriceAndQuantity(id, newValue, produit) {
 
 function saveNewData(produit) {
     const dataSave = JSON.stringify(produit)
-    localStorage.setItem(produit.id, dataSave)
+    const key = `${produit.id}-${produit.color}`
+    localStorage.setItem(key, dataSave)
 }
 
 
