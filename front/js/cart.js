@@ -1,3 +1,7 @@
+
+const btnCommander = document.querySelector('#order')
+btnCommander.addEventListener('click', (e) => commander(e))
+
 const panier = [];
 console.log(panier)
 function recuperationProduits () {
@@ -174,6 +178,54 @@ function deleteDataFromCart(produit) {
 function deleteArticlefromPage(produit) {
     const articleToDelete = document.querySelector(`article[data-id="${produit.id}"][data-color="${produit.color}"]`)
     articleToDelete.remove()
+}
+
+function commander(e) {
+    e.preventDefault()
+    if (panier.length === 0) alert("Merci d'ajouter des produits dans votre panier")
+    const body = makeRequestBody()
+    fetch("http://localhost:3000/api/products/order", {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then((res) => res.json())
+    .then((data) => console.log(data))
+}
+
+function makeRequestBody() {
+    const form = document.querySelector('.cart__order__form')
+    const firstName = form.elements.firstName.value
+    const lastName = form.elements.lastName.value
+    const address = form.elements.address.value
+    const city = form.elements.city.value
+    const email = form.elements.email.value
+
+    const body = {
+        contact: {
+            firstName: firstName,
+            lastName: lastName,
+            address: address,
+            city: city,
+            email: email
+        },
+        products: getIdsFromStorage()
+    }
+    console.log(body)
+    return body
+}
+
+function getIdsFromStorage() {
+    const numberOfProducts = localStorage.length
+    const ids = []
+    for (let i = 0; i < numberOfProducts; i++) {
+        const key = localStorage.key(i)
+        const id = key.split("-")[0]
+        ids.push(id)
+    }
+    return ids
 }
 
 
