@@ -182,7 +182,14 @@ function deleteArticlefromPage(produit) {
 
 function commander(e) {
     e.preventDefault()
-    if (panier.length === 0) alert("Merci d'ajouter des produits dans votre panier")
+    if (panier.length === 0) {
+        alert("Merci d'ajouter des produits dans votre panier")
+        return
+    }
+
+    if (invalidForm()) return
+    if (emailInvalid()) return
+
     const body = makeRequestBody()
     fetch("http://localhost:3000/api/products/order", {
         method: "POST",
@@ -193,6 +200,28 @@ function commander(e) {
     })
     .then((res) => res.json())
     .then((data) => console.log(data))
+}
+
+function invalidForm() {
+    const form = document.querySelector('.cart__order__form')
+    const inputs = form.querySelectorAll("input")
+    inputs.forEach((input) => {
+        if (input.value === "") {
+            alert("Merci de remplir tout les champs")
+            return true
+        }
+        return false
+    })
+}
+
+function emailInvalid() {
+    const email = document.querySelector('#email').value
+    const regex = /^[A-Za-z0-9+_.-]+@(.+)$/
+    if (regex.test(email) === false) {
+        alert("Merci d'entrer une adresse email valide")
+        return true
+    } 
+    return false
 }
 
 function makeRequestBody() {
