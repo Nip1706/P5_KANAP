@@ -1,10 +1,25 @@
+const urlBase = "http://localhost:3000/api/products/";
+
+function retournerPrix(id) {
+    fetch(urlBase + id) 
+    .then((res) => res.json())
+    .then((data) => {
+            //document.getElementById("price").innerHTML =`${data.value}` 
+            console.log(data)
+    })
+}
+
 
 const btnCommander = document.querySelector('#order')
 btnCommander.addEventListener('click', (e) => commander(e))
 
 const panier = [];
 console.log(panier)
+
+
+
 function recuperationProduits () {
+
     const nombreProduit = localStorage.length;
     for (let i = 0; i < nombreProduit; i++) {
         const produit = localStorage.getItem(localStorage.key(i));
@@ -25,11 +40,13 @@ function displayItem(produit) {
     displayArticle(article);
     displayTotalQuantity();
     displaytotalPrice(produit)
+    retournerPrix(produit.id)
 }
 
 
 
 function makeArticle(produit) {
+    
     const article = document.createElement('article')
     article.classList.add("cart__item")
     article.dataset.id = produit.id
@@ -105,7 +122,7 @@ function makeCardItemContent(produit) {
     divContentSettings.appendChild(divDeleteSettings)
     return divContent
 }
-/*
+
 function makeCardItemContentSettings(produit) {
     const divContentSettings = document.createElement("div")
     divContentSettings.classList.add("cart__item__content__settings")
@@ -131,7 +148,7 @@ function makeCardItemContentSettings(produit) {
     divContentSettings.appendChild(divDeleteSettings)
     return divContentSettings
 }
-*/
+
 
 
 function displaytotalPrice(produit) {
@@ -155,6 +172,7 @@ function displayTotalQuantity (produit) {
     totalQuantity.textContent = totalQ
 }
 
+
 function updatePriceAndQuantity(id, newValue, produit) {
     const produitUpdate = panier.find((produit) => produit.id === id)
     produitUpdate.quantity = Number(newValue)
@@ -169,6 +187,7 @@ function saveNewData(produit) {
     const key = `${produit.id}-${produit.color}`
     localStorage.setItem(key, dataSave)
 }
+
 
 function deleteDataFromCart(produit) {
     const key = `${produit.id}-${produit.color}`
@@ -212,9 +231,9 @@ function invalidForm() {
     inputs.forEach((input) => {
         if (input.value === "") {
             alert("Merci de remplir tout les champs")
-            return true
+            return false
         }
-        return false
+        return true
     })
 }
 
@@ -260,7 +279,6 @@ function getIdsFromStorage() {
     }
     return ids
 }
-
 
 
 

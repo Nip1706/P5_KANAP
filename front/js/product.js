@@ -6,6 +6,9 @@ if (id != null) {
     let imgUrl, altText
 }
 
+
+
+
 async function afficherDetailProduit() {
     console.log(id);
     fetch(urlBase + id)
@@ -48,22 +51,22 @@ function choixCouleurProduit(couleurChoix) {
 	parent.appendChild(couleurOption)        
 }
 
+/*
 const button = document.querySelector("#addToCart");
 if (button != null) {
     button.addEventListener("click", (event) => {
         const color = document.getElementById("colors").value
         const quantity = document.getElementById("quantity").value
-        if (color == null || color === "" || quantity == null || quantity == 0){
-            event.preventDefault();
+        if (color === "" || quantity < 1 || quantity > 100 ){
             alert("Merci de bien vouloir séléctionner la couleur et saisir une quantité valide (1-100)");
-            return
+            event.preventDefault();
+        } else {
+            enregistrerPanier (color, quantity);
         }
-        enregistrerPanier (color, quantity);
-        window.location.href = "cart.html"
     })    
 }
 
-function enregistrerPanier (color, quantity) {
+function enregistrerPanier (color, quantity, product) {
     const key = `${id}-${color}`
     const data = {
         id : id,
@@ -72,12 +75,91 @@ function enregistrerPanier (color, quantity) {
         price : itemPrice,
         imageUrl : imgUrl,
         description : descriptproduit,
-        name : altText
+        name : altText,
     }
+    
+
     localStorage.setItem(key, JSON.stringify(data));  
 
 }
+*/
 
+
+
+const button = document.querySelector("#addToCart");
+if (button != null) {
+  button.addEventListener("click", (event) => {
+    const color = document.getElementById("colors").value;
+    const quantity = document.getElementById("quantity").value;
+    if (color === "" || quantity < 1 || quantity > 100) {
+      alert(
+        "Merci de bien vouloir séléctionner la couleur et saisir une quantité valide (1-100)"
+      );
+      event.preventDefault();
+    } else {
+      enregistrerPanier(color, quantity);
+    }
+  });
+}
+
+function enregistrerPanier(color, quantity) {
+  const id = url.searchParams.get("id"); 
+  const key = `${id}-${color}`;
+  const existingData = JSON.parse(localStorage.getItem(key));
+  if (existingData) {
+    existingData.quantity += Number(quantity);
+    localStorage.setItem(key, JSON.stringify(existingData));
+  } else {
+    const data = {
+      id: id,
+      color: color,
+      quantity: Number(quantity),
+      imageUrl: imgUrl,
+      description: descriptproduit,
+      name: altText,
+    };
+    localStorage.setItem(key, JSON.stringify(data));
+  }
+}
+
+/*
+
+function enregistrerPanier(id, color, quantity) {
+    const key = `${id}-${color}`;
+    const data = {
+      id: id,
+      color: color,
+      quantity: Number(quantity)
+    };
+    let stockagePanier = localStorage;
+    let produits = JSON.parse(stockagePanier.getItem("products"));
+    if (produits == null) {
+      produits = [];
+      produits.push(data);
+      produits.push(key);
+      stockagePanier.setItem("products", JSON.stringify(produits));
+      alert("Votre produit a bien été ajouté au panier !");
+    } else {
+      let quantite = quantity;
+      for (let i = 0; i < produits.length; i++) {
+        if (produits[i].id == id && produits[i].color == color) {
+          let nouvelleQuantite =
+            parseInt(produits[i].quantity) + parseInt(quantite);
+          produits[i].quantity = nouvelleQuantite;
+          stockagePanier.setItem("products", JSON.stringify(produits));
+          alert("La quantité du panier a été mise à jour");
+          break;
+        } else {
+          produits.push(data);
+          produits.push(key);
+          stockagePanier.setItem("products", JSON.stringify(produits));
+          alert("Votre article a été ajouté au panier");
+          break;
+        }
+      }
+    }
+  }
+  
 
 
 
@@ -94,9 +176,9 @@ function enregistrerPanier (color, quantity) {
     }
 }
 
+*/
 
-
-
+/*
 const boutonAjouterProduitPanier = document.getElementById("addToCart");
 boutonAjouterProduitPanier.addEventListener ("click", (event) => {
     let quantite = document.getElementById("quantity").value;
@@ -130,7 +212,7 @@ boutonAjouterProduitPanier.addEventListener ("click", (event) => {
                 }
                 
             }
-    
+            
         }
     }
     });
@@ -142,7 +224,6 @@ boutonAjouterProduitPanier.addEventListener ("click", (event) => {
 
 
     
-
 
 
 
