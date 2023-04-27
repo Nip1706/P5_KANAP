@@ -98,17 +98,24 @@ function changeQuantity(event) {
     const dataId = event.target.getAttribute("data-id");
     const dataColor = event.target.getAttribute("data-color");
   
+    // Vérification si la saisie est valide
+  if (inputValue >= 0 && inputValue <= 100) {
     for(item of cart) {
       if (item[0].id === dataId && item[0].color === dataColor) {
         item[0].quantity = inputValue;
       }
     }
+  } else {
+    // Affichage d'un message d'erreur si la saisie est invalide
+    alert("La quantité doit être comprise entre 0 et 100.");
+  }
+}
   
     // Mise à jour du localStorage
     let itemsString = JSON.stringify(cart);
     stockItem.setItem("products", itemsString);
     calcul();
-  }
+  
   
     // Suppression d'un article
     function listenItemDelete () {
@@ -140,6 +147,16 @@ function changeQuantity(event) {
 
 // sélection du bouton Valider
 const btnValidate = document.querySelector("#order");
+btnValidate.addEventListener("click", validateCart);
+
+// Contrôle du panier avant validation de la commande
+function validateCart(event) {
+  const cart = getCart();
+  if (cart == null || cart.length === 0) {
+    event.preventDefault();
+    alert("Votre panier est vide. Veuillez ajouter des articles avant de valider votre commande.");
+  }
+}
 
 // Écoute du bouton Valider sur le click pour pouvoir valider le formulaire
 btnValidate.addEventListener("click", (event) => {
