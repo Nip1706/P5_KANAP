@@ -93,28 +93,27 @@ function listenItem() {
  )}
 }
 function changeQuantity(event) {
-    let cart = JSON.parse(stockItem.getItem("products"));
-    const inputValue = event.target.value;
-    const dataId = event.target.getAttribute("data-id");
-    const dataColor = event.target.getAttribute("data-color");
-  
-    // Vérification si la saisie est valide
-  if (inputValue >= 0 && inputValue <= 100) {
-    for(item of cart) {
+  let cart = JSON.parse(stockItem.getItem("products"));
+  const inputValue = event.target.value;
+  const dataId = event.target.getAttribute("data-id");
+  const dataColor = event.target.getAttribute("data-color");
+
+  // Vérification si la saisie est valide
+  if (inputValue >= 1 && inputValue <= 100) {
+    for (item of cart) {
       if (item[0].id === dataId && item[0].color === dataColor) {
         item[0].quantity = inputValue;
       }
     }
+    // Mise à jour du localStorage
+    let itemsString = JSON.stringify(cart);
+    stockItem.setItem("products", itemsString);
+    calcul();
   } else {
     // Affichage d'un message d'erreur si la saisie est invalide
     alert("La quantité doit être comprise entre 0 et 100.");
   }
 }
-  
-    // Mise à jour du localStorage
-    let itemsString = JSON.stringify(cart);
-    stockItem.setItem("products", itemsString);
-    calcul();
   
   
     // Suppression d'un article
